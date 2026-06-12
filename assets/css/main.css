@@ -94,9 +94,34 @@ input, select, textarea {
 		box-sizing: inherit;
 	}
 
-	body {
-		background: #1b1f22;
+	@layer base, components, utilities;
+
+@layer base {
+	:root {
+		--bg-color: #1b1f22;
+		--card-bg: rgba(255, 255, 255, 0.05);
+		--border-color: rgba(255, 255, 255, 0.1);
+		--text-color: #ffffff;
+		--glass-bg: rgba(27, 31, 34, 0.7);
+		--backdrop-blur: blur(15px);
+		--transition-speed: 0.3s;
+		--accent-color: #ffffff;
 	}
+
+	body {
+		background: var(--bg-color);
+		color: var(--text-color);
+		font-family: "Source Sans Pro", sans-serif;
+	}
+
+	h1, h2 {
+		text-wrap: balance;
+	}
+}
+
+@layer components {
+    /* Components styles will be integrated here */
+}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
@@ -1114,11 +1139,13 @@ input, select, textarea {
 	}
 
 	.project-card {
-		background: rgba(255, 255, 255, 0.05);
+		background: var(--card-bg);
+		backdrop-filter: var(--backdrop-blur);
+		-webkit-backdrop-filter: var(--backdrop-blur);
 		padding: 2rem;
-		border-radius: 0.25rem;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		transition: all 0.3s ease;
+		border-radius: 0.5rem;
+		border: 1px solid var(--border-color);
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 		display: flex;
 		flex-direction: column;
 		height: 100%;
@@ -1126,9 +1153,9 @@ input, select, textarea {
 	}
 
 	.project-card:hover {
-		background: rgba(255, 255, 255, 0.1);
-		border-color: #ffffff;
-		transform: translateY(-5px);
+		transform: translateY(-8px) scale(1.02);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		border-color: rgba(255, 255, 255, 0.3);
 	}
 
 	.project-card h3 {
@@ -1200,11 +1227,17 @@ input, select, textarea {
 		font-size: 2rem;
 	}
 
-	@media screen and (max-width: 736px) {
-		.projects-grid {
-			grid-template-columns: 1fr;
-		}
-	}
+	/* Fluid Typography */
+h1 { font-size: clamp(1.75rem, 5vw, 3rem); }
+h2 { font-size: clamp(1.25rem, 3vw, 2rem); }
+
+/* Button Hover Enhancements */
+.button:hover {
+	background-color: var(--accent-color);
+	color: var(--bg-color) !important;
+	transform: scale(1.05);
+	transition: transform 0.2s ease, background-color 0.2s ease;
+}
 
 	#bg {
 		-moz-transform: scale(1.0);
